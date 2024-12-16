@@ -5,4 +5,7 @@ local opt = vim.opt
 
 vim.g.lazyvim_python_ruff = "ruff"
 opt.relativenumber = false -- Relative line numbers
-vim.g.lazyvim_picker = "telescope"
+-- vim.g.lazyvim_picker = "telescope"
+vim.g.lazyvim_picker = "fzf"
+
+-- vim.g.snacks_animate = false
