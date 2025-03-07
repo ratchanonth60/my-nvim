@@ -19,18 +19,18 @@ return {
       dashboard = {
         preset = {
           header = [[
-    ███╗   ██╗ ██████╗  ██████╗ ██████╗             
-    ████╗  ██║██╔═══██╗██╔═══██╗██╔══██╗            
-    ██╔██╗ ██║██║   ██║██║   ██║██████╔╝            
-    ██║╚██╗██║██║   ██║██║   ██║██╔══██╗            
-    ██║ ╚████║╚██████╔╝╚██████╔╝██████╔╝            
-███╗╚═╝███╗═█████╗═███████╗████████╗███████╗██████╗ 
+    ███╗   ██╗ ██████╗  ██████╗ ██████╗
+    ████╗  ██║██╔═══██╗██╔═══██╗██╔══██╗
+    ██╔██╗ ██║██║   ██║██║   ██║██████╔╝
+    ██║╚██╗██║██║   ██║██║   ██║██╔══██╗
+    ██║ ╚████║╚██████╔╝╚██████╔╝██████╔╝
+███╗╚═╝███╗═█████╗═███████╗████████╗███████╗██████╗
 ████╗ ████║██╔══██╗██╔════╝╚══██╔══╝██╔════╝██╔══██╗
 ██╔████╔██║███████║███████╗   ██║   █████╗  ██████╔╝
 ██║╚██╔╝██║██╔══██║╚════██║   ██║   ██╔══╝  ██╔══██╗
 ██║ ╚═╝ ██║██║  ██║███████║   ██║   ███████╗██║  ██║
 ╚═╝     ╚═╝╚═╝  ╚═╝╚══════╝   ╚═╝   ╚══════╝╚═╝  ╚═╝
-                                                    
+
     ]],
         },
         sections = {
@@ -274,14 +274,14 @@ return {
         end,
       },
       {
-        "<leader>th",
+        "<leader>lh",
         function()
           Snacks.terminal.open(nil, { win = { position = "bottom" } })
         end,
         desc = "terminal horizontal",
       },
       {
-        "<leader>tv",
+        "<leader>lv",
         function()
           Snacks.terminal.open(nil, { win = { position = "right" } })
         end,
@@ -315,6 +315,26 @@ return {
           Snacks.toggle.inlay_hints():map("<leader>uh")
           Snacks.toggle.indent():map("<leader>ug")
           Snacks.toggle.dim():map("<leader>uD")
+          local copilot_exists = pcall(require, "copilot")
+          if copilot_exists then
+            Snacks.toggle({
+              name = "Copilot Completion",
+              color = {
+                enabled = "azure",
+                disabled = "orange",
+              },
+              get = function()
+                return not require("copilot.client").is_disabled()
+              end,
+              set = function(state)
+                if state then
+                  require("copilot.command").enable()
+                else
+                  require("copilot.command").disable()
+                end
+              end,
+            }):map("<leader>at")
+          end
         end,
       })
     end,
@@ -363,5 +383,16 @@ return {
       --   If not available, we use `mini` as the fallback
       "rcarriga/nvim-notify",
     },
+  },
+  {
+    "hedyhli/outline.nvim",
+    config = function()
+      -- Example mapping to toggle outline
+      vim.keymap.set("n", "<leader>o", "<cmd>Outline<CR>", { desc = "Toggle Outline" })
+
+      require("outline").setup({
+        -- Your setup opts here (leave empty to use defaults)
+      })
+    end,
   },
 }

@@ -122,21 +122,22 @@ map("n", "[w", diagnostic_goto(false, "WARN"), { desc = "Prev Warning" })
 -- toggle options
 LazyVim.format.snacks_toggle():map("<leader>uf")
 LazyVim.format.snacks_toggle(true):map("<leader>uF")
-Snacks.toggle.option("spell", { name = "Spelling"}):map("<leader>us")
-Snacks.toggle.option("wrap", {name = "Wrap"}):map("<leader>uw")
-Snacks.toggle.option("relativenumber", { name = "Relative Number"}):map("<leader>uL")
+Snacks.toggle.option("spell", { name = "Spelling" }):map("<leader>us")
+Snacks.toggle.option("wrap", { name = "Wrap" }):map("<leader>uw")
+Snacks.toggle.option("relativenumber", { name = "Relative Number" }):map("<leader>uL")
 Snacks.toggle.diagnostics():map("<leader>ud")
 Snacks.toggle.line_number():map("<leader>ul")
-Snacks.toggle.option("conceallevel", {off = 0, on = vim.o.conceallevel > 0 and vim.o.conceallevel or 2}):map("<leader>uc")
+Snacks.toggle.option("conceallevel", { off = 0, on = vim.o.conceallevel > 0 and vim.o.conceallevel or 2 }):map(
+"<leader>uc")
 Snacks.toggle.treesitter():map("<leader>uT")
-Snacks.toggle.option("background", { off = "light", on = "dark" , name = "Dark Background"}):map("<leader>ub")
+Snacks.toggle.option("background", { off = "light", on = "dark", name = "Dark Background" }):map("<leader>ub")
 if vim.lsp.inlay_hint then
   Snacks.toggle.inlay_hints():map("<leader>uh")
 end
 
 -- lazygit
 if vim.fn.executable("lazygit") == 1 then
-  map("n", "<leader>gg", function() Snacks.lazygit( { cwd = LazyVim.root.git() }) end, { desc = "Lazygit (Root Dir)" })
+  map("n", "<leader>gg", function() Snacks.lazygit({ cwd = LazyVim.root.git() }) end, { desc = "Lazygit (Root Dir)" })
   map("n", "<leader>gG", function() Snacks.lazygit() end, { desc = "Lazygit (cwd)" })
   map("n", "<leader>gb", function() Snacks.git.blame_line() end, { desc = "Git Blame Line" })
   map("n", "<leader>gB", function() Snacks.gitbrowse() end, { desc = "Git Browse" })
@@ -158,8 +159,8 @@ map("n", "<leader>L", function() LazyVim.news.changelog() end, { desc = "LazyVim
 -- floating terminal
 map("n", "<leader>fT", function() Snacks.terminal() end, { desc = "Terminal (cwd)" })
 map("n", "<leader>ft", function() Snacks.terminal(nil, { cwd = LazyVim.root() }) end, { desc = "Terminal (Root Dir)" })
-map("n", "<c-/>",      function() Snacks.terminal(nil, { cwd = LazyVim.root() }) end, { desc = "Terminal (Root Dir)" })
-map("n", "<c-_>",      function() Snacks.terminal(nil, { cwd = LazyVim.root() }) end, { desc = "which_key_ignore" })
+map("n", "<c-/>", function() Snacks.terminal(nil, { cwd = LazyVim.root() }) end, { desc = "Terminal (Root Dir)" })
+map("n", "<c-_>", function() Snacks.terminal(nil, { cwd = LazyVim.root() }) end, { desc = "which_key_ignore" })
 
 -- Terminal Mappings
 map("t", "<C-/>", "<cmd>close<cr>", { desc = "Hide Terminal" })
@@ -191,4 +192,4 @@ if vim.fn.has("nvim-0.11") == 0 then
   end, { expr = true, desc = "Jump Previous" })
 end
 map("n", "<leader>k9", function() Snacks.terminal("k9s") end, { desc = "Terminal k9s" })
-map("n", "<leader>kd", function() Snacks.terminal("lazydocker") end, { desc = "Terminal k9s" })
+map("n", "<leader>kd", function() Snacks.terminal("lazydocker") end, { desc = "Terminal docker" })

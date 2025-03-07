@@ -14,10 +14,34 @@ return {
     end,
   },
   {
+    "zbirenbaum/copilot.lua",
+    cmd = "Copilot",
+    build = ":Copilot auth",
+    event = "BufReadPost",
+    opts = {
+      suggestion = {
+        enabled = not vim.g.ai_cmp,
+        auto_trigger = true,
+        hide_during_completion = vim.g.ai_cmp,
+        keymap = {
+          accept = false, -- handled by nvim-cmp / blink.cmp
+          next = "<M-]>",
+          prev = "<M-[>",
+        },
+      },
+      panel = { enabled = false },
+      filetypes = {
+        markdown = true,
+        help = true,
+      },
+    },
+  },
+  {
     "zbirenbaum/copilot-cmp",
-    opts = {},
+    dependencies = { "hrsh7th/nvim-cmp" },
     config = function(_, opts)
       local copilot_cmp = require("copilot_cmp")
+      local LazyVim = require("lazyvim.util")
       copilot_cmp.setup(opts)
       -- attach cmp source whenever copilot attaches
       -- fixes lazy-loading issues with the copilot cmp source
@@ -25,28 +49,26 @@ return {
         copilot_cmp._on_insert_enter({})
       end, "copilot")
     end,
-    specs = {
-      {
-        "hrsh7th/nvim-cmp",
-        optional = true,
-        ---@param opts cmp.ConfigSchema
-        opts = function(_, opts)
-          table.insert(opts.sources, 1, {
-            name = "copilot",
-            group_index = 1,
-            priority = 100,
-          })
-        end,
-      },
-    },
+  },
+  {
+    "hrsh7th/nvim-cmp",
+    optional = true,
+    ---@param opts cmp.ConfigSchema
+    opts = function(_, opts)
+      table.insert(opts.sources, 1, {
+        name = "copilot",
+        group_index = 1,
+        priority = 100,
+      })
+    end,
   },
   {
     "CopilotC-Nvim/CopilotChat.nvim",
     dependencies = {
-      { "github/copilot.vim" }, -- or zbirenbaum/copilot.lua
+      { "github/copilot.vim" },                       -- or zbirenbaum/copilot.lua
       { "nvim-lua/plenary.nvim", branch = "master" }, -- for curl, log and async functions
     },
-    build = "make tiktoken", -- Only on MacOS or Linux
+    build = "make tiktoken",                          -- Only on MacOS or Linux
     opts = function()
       local user = vim.env.USER or "User"
       user = user:sub(1, 1):upper() .. user:sub(2)
@@ -60,8 +82,8 @@ return {
       }
     end,
     keys = {
-      { "<c-s>", "<CR>", ft = "copilot-chat", desc = "Submit Prompt", remap = true },
-      { "<leader>a", "", desc = "+ai", mode = { "n", "v" } },
+      { "<leader>s", "", ft = "copilot-chat", desc = "Submit Prompt", remap = true },
+      { "<leader>a", "", desc = "+ai",        mode = { "n", "v" } },
       {
         "<leader>aa",
         function()
